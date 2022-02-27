@@ -1,13 +1,17 @@
 from flask import Flask
 from flask import request, jsonify
+from flask_cors import CORS, cross_origin
 from bs4 import BeautifulSoup
 import requests
 import re
 
 app = Flask(__name__)
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 # takes POSTed JSON in the format {'search': 'search term'} and returns the text of the first paragraph of the wikipedia page that matches the search term
 @app.route('/wiki-service', methods=['GET', 'POST'])
+@cross_origin()
 def wiki_service():
     if request.method == 'POST':
         data = request.get_json()
